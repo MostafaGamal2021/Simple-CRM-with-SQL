@@ -1,6 +1,6 @@
 from tkinter import *
 import mysql.connector
-
+import csv
 
 root = Tk()
 root.title('MGA')
@@ -72,6 +72,11 @@ def add():
     mydb.commit()
     clear()
 
+def write_to_csv(result):
+    with open('customer.csv', 'a') as f:
+        w = csv.writer(f, dialect = 'excel')
+        w.writerows(result)
+
 def show_list():
     show_list_window = Tk()
     show_list_window.title("My DB List")
@@ -85,6 +90,8 @@ def show_list():
             lookup_label = Label(show_list_window, text = y)
             lookup_label.grid(row = index, column = num)
             num += 1
+    csv_butn = Button(show_list_window, text = "Save to Excel", command = lambda :write_to_csv(results))
+    csv_butn.grid(row = index+1, column = 0, padx = 20)
 
 title_label = Label(root, text = "MGA Customers Database", font = ("Helvetica", 16), fg = "blue")
 title_label.grid(row = 0, column = 0, columnspan = 2, pady = 10, padx = 10)
