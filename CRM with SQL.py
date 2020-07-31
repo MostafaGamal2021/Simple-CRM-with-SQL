@@ -82,7 +82,7 @@ def search():
     search_window.title("Search Customers")
     search_window.geometry("750x400")
     search_window.iconbitmap("D:\Python\Level 2\Codemy\Python And TKinter\PYTkinter\Images/plane.ico")
-    
+
     def search_now():
         searched = search_box.get()
         sql = "SELECT * FROM customers WHERE last_name = %s"
@@ -91,15 +91,23 @@ def search():
         result2 = my_cursor.fetchall()
         if not result2:
             result2 = "Record not found ...."
+        global searched_label
         searched_label = Label(search_window, text = result2)
-        searched_label.grid(row = 2, column = 0)
-
+        searched_label.grid(row = 3, column = 0)
     search_box = Entry(search_window)
     search_box.grid(row = 0, column = 1, padx = 10, pady = 10)
     search_box_label = Label(search_window, text = "Search Customer by last name")
     search_box_label.grid(row = 0, column = 0, padx = 10, pady = 10)
     search_btn = Button(search_window, text = "Search Now", command = search_now)
     search_btn.grid(row = 1, column = 0, columnspan = 2, padx = 10)
+
+    def clear():
+        global searched_label
+        search_box.delete(0, END)
+        searched_label.grid_forget()
+
+    clear_btn = Button(search_window, text="Clear", command=clear)
+    clear_btn.grid(row=2, column=0, columnspan=2, padx=10)
 
 def show_list():
     show_list_window = Tk()
