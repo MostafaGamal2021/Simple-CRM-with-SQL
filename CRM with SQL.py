@@ -4,7 +4,7 @@ import mysql.connector
 
 root = Tk()
 root.title('MGA')
-root.geometry('320x600')
+root.geometry('320x550')
 root.iconbitmap('D:\Python\Level 2\Codemy\Python And TKinter\PYTkinter\Images/moon.ico')
 
 mydb = mysql.connector.connect(
@@ -60,10 +60,31 @@ def clear():
     country_box.delete(0, END)
     phone_box.delete(0, END)
     email_box.delete(0, END)
-    user_id_box.delete(0, END)
+    #user_id_box.delete(0, END)
     payment_method_box.delete(0, END)
     discount_code_box.delete(0, END)
     price_paid_box.delete(0, END)
+
+def add():
+    sql_command = "INSERT INTO customers (first_name,last_name,zipcode,price_paid,email,address_1,address_2,city,state,country,phone,payment_method,discount_code) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    values = (first_name_box.get(),last_name_box.get(),zipcode_box.get(),price_paid_box.get(),email_box.get(),address1_box.get(),address2_box.get(),city_box.get(),state_box.get(),country_box.get(),phone_box.get(),payment_method_box.get(),discount_code_box.get())
+    my_cursor.execute(sql_command, values)
+    mydb.commit()
+    clear()
+
+def show_list():
+    show_list_window = Tk()
+    show_list_window.title("My DB List")
+    show_list_window.geometry("750x400")
+    show_list_window.iconbitmap("D:\Python\Level 2\Codemy\Python And TKinter\PYTkinter\Images/plane.ico")
+    my_cursor.execute("SELECT * FROM customers")
+    results = my_cursor.fetchall()
+    for index, x in enumerate(results): # "enumerate" makes an index number for each line of list
+        num = 0
+        for y in x:
+            lookup_label = Label(show_list_window, text = y)
+            lookup_label.grid(row = index, column = num)
+            num += 1
 
 title_label = Label(root, text = "MGA Customers Database", font = ("Helvetica", 16), fg = "blue")
 title_label.grid(row = 0, column = 0, columnspan = 2, pady = 10, padx = 10)
@@ -78,7 +99,7 @@ zipcode_label = Label(root, text = "Zip Code").grid(row = 7, column = 0, sticky 
 country_label = Label(root, text = "Country").grid(row = 8, column = 0, sticky = W, padx = 10)
 phone_label = Label(root, text = "Phone").grid(row = 9, column = 0, sticky = W, padx = 10)
 email_label = Label(root, text = "Email").grid(row = 10, column = 0, sticky = W, padx = 10)
-user_id_label = Label(root, text = "User ID").grid(row = 11, column = 0, sticky = W, padx = 10)
+#user_id_label = Label(root, text = "User ID").grid(row = 11, column = 0, sticky = W, padx = 10)
 payment_method_label = Label(root, text = "Payment Method").grid(row = 12, column = 0, sticky = W, padx = 10)
 discount_code_label = Label(root, text = "Discount Code").grid(row = 13, column = 0, sticky = W, padx = 10)
 price_paid_label = Label(root, text = "Price Paid").grid(row = 14, column = 0, sticky = W, padx = 10)
@@ -103,8 +124,8 @@ phone_box = Entry(root)
 phone_box.grid(row = 9, column = 1, pady = 5)
 email_box = Entry(root)
 email_box.grid(row = 10, column = 1, pady = 5)
-user_id_box = Entry(root)
-user_id_box.grid(row = 11, column = 1, pady = 5)
+#user_id_box = Entry(root)
+#user_id_box.grid(row = 11, column = 1, pady = 5)
 payment_method_box = Entry(root)
 payment_method_box.grid(row = 12, column = 1, pady = 5)
 discount_code_box = Entry(root)
@@ -112,9 +133,13 @@ discount_code_box.grid(row = 13, column = 1, pady = 5)
 price_paid_box = Entry(root)
 price_paid_box.grid(row = 14, column = 1, pady = 5)
 
-add_customer_button = Button(root, text = "Add Customer to Database")
-add_customer_button.grid(row = 15, column = 0, columnspan = 2, pady = 10, padx = 10, ipady = 7, ipadx = 35)
+add_customer_button = Button(root, text = "Add Customer to Database", command = add)
+add_customer_button.grid(row = 15, column = 0, columnspan = 2, pady = (10,5) , padx = 10, ipady = 5, ipadx = 35)
 clear_button = Button(root, text = "Clear", command = clear)
-clear_button.grid(row = 16, column = 0, columnspan = 2, padx = 10, ipadx = 30)
+clear_button.grid(row = 17, column = 0, columnspan = 2, pady = 5, padx = 10, ipadx = 51)
+show_button = Button(root, text = "Show List", command = show_list)
+show_button.grid(row = 16, column = 0, columnspan = 2, padx = 10, ipadx = 40)
+
+
 
 root.mainloop()
