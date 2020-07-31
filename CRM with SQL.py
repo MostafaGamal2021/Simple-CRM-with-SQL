@@ -4,7 +4,7 @@ import csv
 
 root = Tk()
 root.title('MGA')
-root.geometry('320x550')
+root.geometry('320x600')
 root.iconbitmap('D:\Python\Level 2\Codemy\Python And TKinter\PYTkinter\Images/moon.ico')
 
 mydb = mysql.connector.connect(
@@ -77,6 +77,30 @@ def write_to_csv(result):
         w = csv.writer(f, dialect = 'excel')
         w.writerows(result)
 
+def search():
+    search_window = Tk()
+    search_window.title("Search Customers")
+    search_window.geometry("750x400")
+    search_window.iconbitmap("D:\Python\Level 2\Codemy\Python And TKinter\PYTkinter\Images/plane.ico")
+    
+    def search_now():
+        searched = search_box.get()
+        sql = "SELECT * FROM customers WHERE last_name = %s"
+        name = (searched,)
+        my_cursor.execute(sql, name)
+        result2 = my_cursor.fetchall()
+        if not result2:
+            result2 = "Record not found ...."
+        searched_label = Label(search_window, text = result2)
+        searched_label.grid(row = 2, column = 0)
+
+    search_box = Entry(search_window)
+    search_box.grid(row = 0, column = 1, padx = 10, pady = 10)
+    search_box_label = Label(search_window, text = "Search Customer by last name")
+    search_box_label.grid(row = 0, column = 0, padx = 10, pady = 10)
+    search_btn = Button(search_window, text = "Search Now", command = search_now)
+    search_btn.grid(row = 1, column = 0, columnspan = 2, padx = 10)
+
 def show_list():
     show_list_window = Tk()
     show_list_window.title("My DB List")
@@ -146,7 +170,8 @@ clear_button = Button(root, text = "Clear", command = clear)
 clear_button.grid(row = 17, column = 0, columnspan = 2, pady = 5, padx = 10, ipadx = 51)
 show_button = Button(root, text = "Show List", command = show_list)
 show_button.grid(row = 16, column = 0, columnspan = 2, padx = 10, ipadx = 40)
-
+search_btn = Button(root, text = "Search Customers", command = search)
+search_btn.grid(row = 18, column = 0, columnspan = 2, padx = 10, ipadx = 40)
 
 
 root.mainloop()
