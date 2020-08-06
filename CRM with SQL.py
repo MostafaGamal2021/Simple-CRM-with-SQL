@@ -139,7 +139,7 @@ def search():
 def show_list():
     show_list_window = Tk()
     show_list_window.title("My DB List")
-    show_list_window.geometry("850x500")
+    show_list_window.geometry("900x500")
     show_list_window.iconbitmap("D:\Python\Level 2\Codemy\Python And TKinter\PYTkinter\Images/plane.ico")
 
     def edit():
@@ -148,6 +148,7 @@ def show_list():
         search_window2.geometry("400x500")
         search_window2.iconbitmap("D:\Python\Level 2\Codemy\Python And TKinter\PYTkinter\Images/plane.ico")
         sql2 = "SELECT * FROM customers WHERE user_id = %s"
+        global searched2
         searched2 = id_box2.get()
         name2 = (searched2,)
         result3 = my_cursor.execute(sql2, name2)
@@ -267,6 +268,12 @@ def show_list():
         update_butn = Button(search_window2, text="Update Record", command=update)
         update_butn.grid(row=index + 17, column=0, padx=20)
 
+    def delete():
+        global id_box2
+        my_cursor.execute("DELETE FROM customers WHERE user_id = "+id_box2.get())
+        mydb.commit()
+        show_list_window.destroy()
+
     my_cursor.execute("SELECT * FROM customers")
     results = my_cursor.fetchall()
     for index, x in enumerate(results): # "enumerate" makes an index number for each line of list
@@ -283,6 +290,8 @@ def show_list():
     global id_box2
     id_box2 = Entry(show_list_window)
     id_box2.grid(row=index + 2, column=1, pady=5)
+    del_butn = Button(show_list_window, text="Delete Record", command=delete)
+    del_butn.grid(row=index + 1, column=2, padx=20)
 
 title_label = Label(root, text = "MGA Customers Database", font = ("Helvetica", 16), fg = "blue")
 title_label.grid(row = 0, column = 0, columnspan = 2, pady = 10, padx = 10)
