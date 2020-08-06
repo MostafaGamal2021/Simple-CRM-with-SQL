@@ -81,7 +81,7 @@ def write_to_csv(result):
 def search():
     search_window = Tk()
     search_window.title("Search Customers")
-    search_window.geometry("750x400")
+    search_window.geometry("900x400")
     search_window.iconbitmap("D:\Python\Level 2\Codemy\Python And TKinter\PYTkinter\Images/plane.ico")
 
     def search_now():
@@ -108,10 +108,10 @@ def search():
             for i in result2:
                 list.append(str(i)+"\n")
             searched_label = Label(search_window, text=list)
-            searched_label.grid(row=5, column=0)
+            searched_label.grid(row=5, column=2)
         else:
             searched_label = Label(search_window, text="No record found")
-            searched_label.grid(row=5, column=0)
+            searched_label.grid(row=5, column=2)
 
     search_box = Entry(search_window)
     search_box.grid(row = 0, column = 1, padx = 10, pady = 10)
