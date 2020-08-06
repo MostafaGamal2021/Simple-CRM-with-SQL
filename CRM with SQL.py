@@ -81,7 +81,7 @@ def write_to_csv(result):
 def search():
     search_window = Tk()
     search_window.title("Search Customers")
-    search_window.geometry("900x400")
+    search_window.geometry("950x400")
     search_window.iconbitmap("D:\Python\Level 2\Codemy\Python And TKinter\PYTkinter\Images/plane.ico")
 
     def search_now():
@@ -239,12 +239,30 @@ def show_list():
         price_paid_box2.insert(0, result3[0][3])
 
         def update():
-            sql2 = "SELECT * FROM customers WHERE user_id = %s"
-            searched2 = id_box2.get()
-            name2 = (searched2,)
-            result3 = my_cursor.execute(sql2, name2)
-            result3 = my_cursor.fetchall()
-            print(result3)
+            sql_command = """UPDATE customers SET first_name = %s ,last_name = %s ,zipcode = %s ,price_paid = %s ,email = %s ,address_1 = %s ,address_2 = %s ,city = %s ,state = %s ,country = %s ,phone = %s ,payment_method = %s ,discount_code = %s WHERE user_id = %s"""
+            first_name = first_name_box2.get()
+            last_name = last_name_box2.get()
+            zipcode = zipcode_box2.get()
+            price_paid = price_paid_box2.get()
+            email = email_box2.get()
+            address_1 = address1_box2.get()
+            address_2 = address2_box2.get()
+            city = city_box2.get()
+            state = state_box2.get()
+            country = country_box2.get()
+            phone = phone_box2.get()
+            payment_method = payment_method_box2.get()
+            discount_code = discount_code_box2.get()
+            id_value = searched2
+
+            inputs = (first_name,last_name,zipcode,price_paid,email,address_1,address_2,city,state,country,phone,payment_method,discount_code,id_value)
+
+            my_cursor.execute(sql_command, inputs)
+            mydb.commit()
+
+            id_box2.delete(0, END)
+            search_window2.destroy()
+            show_list_window.destroy()
 
         update_butn = Button(search_window2, text="Update Record", command=update)
         update_butn.grid(row=index + 17, column=0, padx=20)
