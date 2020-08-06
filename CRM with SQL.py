@@ -109,9 +109,12 @@ def search():
                 list.append(str(i)+"\n")
             searched_label = Label(search_window, text=list)
             searched_label.grid(row=5, column=2)
+            csv_butn = Button(search_window, text="Save to Excel", command=lambda: write_to_csv(result2))
+            csv_butn.grid(row=4 , column=1, padx=10, ipadx = 20)
         else:
             searched_label = Label(search_window, text="No record found")
             searched_label.grid(row=5, column=2)
+
 
     search_box = Entry(search_window)
     search_box.grid(row = 0, column = 1, padx = 10, pady = 10)
