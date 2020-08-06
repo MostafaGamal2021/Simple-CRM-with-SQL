@@ -147,6 +147,12 @@ def show_list():
         search_window2.title("Update Record")
         search_window2.geometry("400x500")
         search_window2.iconbitmap("D:\Python\Level 2\Codemy\Python And TKinter\PYTkinter\Images/plane.ico")
+        sql2 = "SELECT * FROM customers WHERE user_id = %s"
+        searched2 = id_box2.get()
+        name2 = (searched2,)
+        result3 = my_cursor.execute(sql2, name2)
+        result3 = my_cursor.fetchall()
+
         first_name_label2 = Label(search_window2, text="First Name").grid(row=index+2, column=0, sticky=W, padx=10)
         last_name_label2 = Label(search_window2, text="Last Name").grid(row=index+3, column=0, sticky=W, padx=10)
         address1_label2 = Label(search_window2, text="Address 1").grid(row=index+4, column=0, sticky=W, padx=10)
@@ -162,40 +168,86 @@ def show_list():
         discount_code_label2 = Label(search_window2, text="Discount Code").grid(row=index+14, column=0, sticky=W, padx=10)
         price_paid_label2 = Label(search_window2, text="Price Paid").grid(row=index+15, column=0, sticky=W, padx=10)
 
+        global first_name_box2
         first_name_box2 = Entry(search_window2)
         first_name_box2.grid(row=index+2, column=1, pady=5)
+        first_name_box2.insert(0, result3[0][0])
+
+        global last_name_box2
         last_name_box2 = Entry(search_window2)
         last_name_box2.grid(row=index+3, column=1, pady=5)
+        last_name_box2.insert(0, result3[0][1])
+
+        global address1_box2
         address1_box2 = Entry(search_window2)
         address1_box2.grid(row=index+4, column=1, pady=5)
+        address1_box2.insert(0, result3[0][6])
+
+        global address2_box2
         address2_box2 = Entry(search_window2)
         address2_box2.grid(row=index+5, column=1, pady=5)
+        address2_box2.insert(0, result3[0][7])
+
+        global city_box2
         city_box2 = Entry(search_window2)
         city_box2.grid(row=index+6, column=1, pady=5)
+        city_box2.insert(0, result3[0][8])
+
+        global state_box2
         state_box2 = Entry(search_window2)
         state_box2.grid(row=index+7, column=1, pady=5)
+        state_box2.insert(0, result3[0][9])
+
+        global zipcode_box2
         zipcode_box2 = Entry(search_window2)
         zipcode_box2.grid(row=index+8, column=1, pady=5)
+        zipcode_box2.insert(0, result3[0][2])
+
+        global country_box2
         country_box2 = Entry(search_window2)
         country_box2.grid(row=index+9, column=1, pady=5)
+        country_box2.insert(0, result3[0][10])
+
+        global phone_box2
         phone_box2 = Entry(search_window2)
         phone_box2.grid(row=index+10, column=1, pady=5)
+        phone_box2.insert(0, result3[0][11])
+
+        global email_box2
         email_box2 = Entry(search_window2)
         email_box2.grid(row=index+11, column=1, pady=5)
+        email_box2.insert(0, result3[0][5])
+
+        global user_id_box2
         user_id_box2 = Entry(search_window2)
         user_id_box2.grid(row = index+12, column = 1, pady = 5)
+        user_id_box2.insert(0, result3[0][4])
+
+        global payment_method_box2
         payment_method_box2 = Entry(search_window2)
         payment_method_box2.grid(row=index+13, column=1, pady=5)
+        payment_method_box2.insert(0, result3[0][12])
+
+        global discount_code_box2
         discount_code_box2 = Entry(search_window2)
         discount_code_box2.grid(row=index+14, column=1, pady=5)
+        discount_code_box2.insert(0, result3[0][13])
+
+        global price_paid_box2
         price_paid_box2 = Entry(search_window2)
         price_paid_box2.grid(row=index+15, column=1, pady=5)
+        price_paid_box2.insert(0, result3[0][3])
 
         def update():
-            return
+            sql2 = "SELECT * FROM customers WHERE user_id = %s"
+            searched2 = id_box2.get()
+            name2 = (searched2,)
+            result3 = my_cursor.execute(sql2, name2)
+            result3 = my_cursor.fetchall()
+            print(result3)
 
         update_butn = Button(search_window2, text="Update Record", command=update)
-        update_butn.grid(row=index + 16, column=0, padx=20)
+        update_butn.grid(row=index + 17, column=0, padx=20)
 
     my_cursor.execute("SELECT * FROM customers")
     results = my_cursor.fetchall()
@@ -209,6 +261,10 @@ def show_list():
     csv_butn.grid(row = index+1, column = 0, padx = 20)
     edt_butn = Button(show_list_window, text="Edit Record", command= edit)
     edt_butn.grid(row=index + 1, column=1, padx=20)
+    id_label_2 = Label(show_list_window, text="Record ID").grid(row=index + 2, column=0, sticky=W, padx=10)
+    global id_box2
+    id_box2 = Entry(show_list_window)
+    id_box2.grid(row=index + 2, column=1, pady=5)
 
 title_label = Label(root, text = "MGA Customers Database", font = ("Helvetica", 16), fg = "blue")
 title_label.grid(row = 0, column = 0, columnspan = 2, pady = 10, padx = 10)
